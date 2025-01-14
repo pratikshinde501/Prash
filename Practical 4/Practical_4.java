@@ -1,8 +1,8 @@
 import java.util.*;
-
 class Practical_4{
     public static void main(String[] args) {
         Scanner sc=new Scanner(System.in);
+        System.out.println(hexToDec("AAAA"));
         while(true){
             System.out.println("Enter your choice :");
             System.out.println("1.Int to Byte\n2.Int to Short\n3.Int to Any of them");
@@ -25,7 +25,7 @@ class Practical_4{
                     String res;
                     System.out.println("Enter the string type value:");
                     res=sc.nextLine();
-                    System.out.println(getNumber(num, res));
+                    System.out.println(getNumber(num,res));
                     break;
                 default:
                     System.out.println("Invalid case...");
@@ -33,18 +33,24 @@ class Practical_4{
             }
         }
     }
+
+//1) first function for integer to byte value
+
     static int getByte(int num){
         int res=num%256;
-        if (res < -128) {
-            return res + 256;
+        if (res<-128) {
+            return res+256;
         } 
-        else if (res > 127) {
-            return res - 256;
+        else if (res>127) {
+            return res-256;
         } 
         else {
             return res;
         }
     }
+
+//2) second function for integer to short value
+
     static int getShort(int num){
         int res=num%65536;
         if(res<-32768){
@@ -57,6 +63,9 @@ class Practical_4{
             return res;
         }
     }
+
+//3) third function for integer to byte or short value
+
     static int getNumber(int num,String type){
         if(type.toLowerCase().equals("byte")){
             return getByte(num);
@@ -70,131 +79,126 @@ class Practical_4{
         }
     }
 
-
+//4) fourth function for any system to any system value
 
     static String toXXSystem(String num,String xx){
         if(num.startsWith("0b")){
-            binToDec();
+            binToDec("01110");
         }
         else if(num.startsWith("0x")){
-            hexToDec();
+            hexToDec("ABA12");
         }
         else if(num.startsWith("00")){
             if(num.charAt(2)!='0'){
-                octToDec();
+                octToDec("891");
             }
         }
         else{
-            //call here the whichever method you want to call for decimal according to the type specified by the user
         }
         return "";
     }
 
-    //Same logic for all the decimal to other system conversions...
-    //create the empty string
-    //temp variable to store decimal value
-
-    public static String decToBin(int dec) {
-        String binary = "";
-        int temp = dec;
+    //decimal to binary
     
-        while (temp > 0) {
-            int remainder = temp % 2;
-            binary = remainder + binary;
-            temp /= 2;
+    static String decToBin(int dec) {
+        String binary="";
+        int temp=dec;
+        while (temp>0) {
+            int remainder=temp%2;
+            binary=remainder+binary;
+            temp/=2;
         }
-        return binary.isEmpty() ? "0" : binary;
+        return binary.isEmpty()?"0":binary;
     }
 
-    public static String decToOct(int dec) {
-        String octal = "";
-        int temp = dec;
-    
-        while (temp > 0) {
-            int remainder = temp % 8;
-            octal = remainder + octal;
-            temp /= 8;
+    //decimal to octal
+
+    static String decToOct(int dec) {
+        String octal="";
+        int temp=dec;
+        while (temp>0) {
+            int remainder=temp%8;
+            octal=remainder+octal;
+            temp=temp/8;
         }
-        return octal.isEmpty() ? "0" : octal;   //used the ternary operator for simplicity
+        return octal.isEmpty()?"0":octal;
     }
 
-    public static String decToHex(int dec) {
-        String hex = "";
-        int temp = dec;
-        
-        //for simplicity used the hashmap to store the keys and map their corresponding values
+    //decimal to hexa
 
-        HashMap<Integer, Character> hexM = new HashMap<>();
-
-        hexM.put(10, 'A');
-        hexM.put(11, 'B');
-        hexM.put(12, 'C');
-        hexM.put(13, 'D');
-        hexM.put(14, 'E');
-        hexM.put(15, 'F');
-
-        while (temp > 0) {
-            int remainder = temp % 16;
-            if (remainder >= 10) {
-                hex = hexM.get(remainder) + hex;
-            } else {
-                hex = remainder + hex;
+    static String decToHex(int dec) {
+        String hex="";
+        int temp=dec;
+        HashMap<Integer,Character> hexM=new HashMap<>();
+        hexM.put(10,'A');
+        hexM.put(11,'B');
+        hexM.put(12,'C');
+        hexM.put(13,'D');
+        hexM.put(14,'E');
+        hexM.put(15,'F');
+        while (temp>0) {
+            int remainder=temp%16;
+            if (remainder>=10) {
+                hex=hexM.get(remainder)+hex;
+            } 
+            else {
+                hex=remainder+hex;
             }
-            temp /= 16;
+            temp=temp/16;
         }
-        return hex.isEmpty() ? "0" : hex;
+        return hex.isEmpty()?"0":hex;
     }
     
-// ===========================================================================
-
-    //functions for the three systems to the decimal conversions...
-
-    public static int octToDec(String octal) {
-        int decimal = 0;
-        int base = 8;
-
-        for (int i = 0; i < octal.length(); i++) {
-            char currentChar = octal.charAt(i);
-            int digit = currentChar - '0';
-            decimal = decimal * base + digit;
+    //octal to decimal
+    
+    static int octToDec(String octal) {
+        int decimal=0;
+        int base=8;
+        int power=0;
+        for (int i=octal.length()-1;i>=0;i--) {
+            char ch=octal.charAt(i);
+            int digit=ch-'0';
+            int value=digit*(int)Math.pow(base,power);
+            decimal+=value;
+            power++;
         }
-
         return decimal;
     }
 
+    //hexa to decimal
 
-    public static int hexToDec(String hex) {
-        int decimal = 0;
-        int base = 16;
-
-        for (int i = 0; i < hex.length(); i++) {
-            char currentChar = hex.charAt(i);
-            int value;
-
-            if (Character.isDigit(currentChar)) {
-                value = currentChar - '0';
+    static int hexToDec(String hex) {
+        int decimal=0;
+        int base=16;
+        int power=0;
+        for (int i=hex.length()-1;i>=0;i--) {
+            char ch=hex.charAt(i);
+            int digit;
+            if (ch>='0'&&ch<='9') {
+                digit=ch-'0';
             } else {
-                value = Character.toUpperCase(currentChar) - 'A' + 10;
+                digit=ch-'A'+10;
             }
-
-            decimal = decimal * base + value;
+            int value=digit*(int)Math.pow(base,power);
+            decimal+=value;
+            power++;
         }
-
         return decimal;
     }
 
+    //binary to decimal
 
-    public static int binToDec(String binary) {
-        int decimal = 0;
-        int base = 2;
-
-        for (int i = 0; i < binary.length(); i++) {
-            char currentChar = binary.charAt(i);
-            int digit = currentChar - '0';
-            decimal = decimal * base + digit;
+    static int binToDec(String bin) {
+        int decimal=0;
+        int base=2;
+        int power=0;
+        for (int i=bin.length()-1;i>=0;i--) {
+            char ch=bin.charAt(i);
+            int digit=ch-'0';   
+            int value=digit*(int)Math.pow(base,power);
+            decimal+=value;
+            power++;
         }
-
         return decimal;
     }
-
 }
