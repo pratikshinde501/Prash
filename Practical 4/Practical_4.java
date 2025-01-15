@@ -106,9 +106,9 @@ class Practical_4{
         while (temp>0) {
             int remainder=temp%2;
             binary=remainder+binary;
-            temp/=2;
+            temp=temp/2;
         }
-        return binary.isEmpty()?"0":binary;
+        return binary;
     }
 
     //decimal to octal
@@ -121,7 +121,7 @@ class Practical_4{
             octal=remainder+octal;
             temp=temp/8;
         }
-        return octal.isEmpty()?"0":octal;
+        return octal;
     }
 
     //decimal to hexa
@@ -146,57 +146,62 @@ class Practical_4{
             }
             temp=temp/16;
         }
-        return hex.isEmpty()?"0":hex;
+        return hex;
     }
     
     //octal to decimal
     
-    static int octToDec(String octal) {
-        int decimal=0;
-        int base=8;
+    static int octalToDecimal(String octal){
+        int octalans=0;
         int power=0;
-        for (int i=octal.length()-1;i>=0;i--) {
-            char ch=octal.charAt(i);
-            int digit=ch-'0';
-            int value=digit*(int)Math.pow(base,power);
-            decimal+=value;
+        for(int i=octal.length()-1;i>=0;i--){
+            int digit=octal.charAt(i)-'0';
+            int anspower=(int)Math.pow(8, power);
+            int answer=digit*anspower;
+            octalans=octalans+answer;
             power++;
         }
-        return decimal;
+        return octalans;
     }
 
     //hexa to decimal
 
-    static int hexToDec(String hex) {
-        int decimal=0;
-        int base=16;
+    static int hexToDecimal(String hex1){
+        int hex=0;
         int power=0;
-        for (int i=hex.length()-1;i>=0;i--) {
-            char ch=hex.charAt(i);
-            int digit;
-            if (ch>='0'&&ch<='9') {
-                digit=ch-'0';
-            } else {
-                digit=ch-'A'+10;
+        HashMap<Character,Integer> h=new HashMap<>();
+        h.put('A', 10);
+        h.put('B', 11);
+        h.put('C', 12);
+        h.put('D', 13);
+        h.put('E', 14);
+        h.put('F', 15);
+        for(int i=hex1.length()-1;i>=0;i--){
+        int digit;
+            if(hex1.charAt(i)<'9'&&hex1.charAt(i)>'0'){
+                digit=hex1.charAt(i)-'0';
             }
-            int value=digit*(int)Math.pow(base,power);
-            decimal+=value;
+            else{
+                digit=h.get(hex1.charAt(i));
+            }
+            int ans=(int)Math.pow(16,power);
+            int answer=digit*ans;
+            hex=hex+answer;
             power++;
         }
-        return decimal;
+        return hex;
     }
 
     //binary to decimal
 
     static int binToDec(String bin) {
         int decimal=0;
-        int base=2;
         int power=0;
         for (int i=bin.length()-1;i>=0;i--) {
-            char ch=bin.charAt(i);
-            int digit=ch-'0';   
-            int value=digit*(int)Math.pow(base,power);
-            decimal+=value;
+            int digit=bin.charAt(i)-'0';   
+            int ans=Math.pow(2,power);
+            int value=digit*ans;
+            decimal=decimal+value;
             power++;
         }
         return decimal;
