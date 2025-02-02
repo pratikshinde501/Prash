@@ -1,4 +1,4 @@
-public class Practical7 {     
+public class PrintNm {     
     public String printName(int size) throws InterruptedException {         
         int inc = size;         
         int inc1 = 2;         
@@ -24,7 +24,7 @@ public class Practical7 {
                     prash+="*";                 
                 } else {                     
                     prash+=" ";                  
-                }             
+                }
             }             
             if (i >= ((7 + size) / 2)) {                 
                 inc++;             
@@ -100,8 +100,8 @@ public class Practical7 {
     }      
 
     public static void main(String[] args) throws InterruptedException {         
-        Practical7 p = new Practical7();         
-        System.out.println();         
-        System.out.println(p.printName(1));     
+        PrintNm p = new PrintNm();         
+        System.out.println(args[0]);  
+        System.out.println(p.printName(Integer.parseInt(args[0])));     
     } 
 }
