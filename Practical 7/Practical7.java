@@ -1,4 +1,4 @@
-public class PrintNm {     
+public class Practical7 {     
     public String printName(int size) throws InterruptedException {         
         int inc = size;         
         int inc1 = 2;         
@@ -100,7 +100,7 @@ public class PrintNm {
     }      
 
     public static void main(String[] args) throws InterruptedException {         
-        PrintNm p = new PrintNm();         
+        Practical7 p = new Practical7();         
         System.out.println();         
         System.out.println(p.printName(1));     
     } 
